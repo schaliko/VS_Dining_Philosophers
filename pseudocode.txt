@@ -1,0 +1,14 @@
+// Initialisierung der Gabeln-Semaphoren)
+for i from 0 to 4 do
+    initialize S[i] to 1
+
+procedure philosopher(i):
+    while true
+        denken()
+        
+        // Versuch, beide Gabeln (links und rechts) gleichzeitig zu nehmen
+        P(S[i], S[(i+1) % 5])     // Nimm die Gabeln atomar, falls beide verfügbar sind
+        
+        essen()
+        
+        V(S[i], S[(i+1) % 5])     // Gib beide Gabeln gleichzeitig zurück
