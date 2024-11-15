@@ -1,14 +1,23 @@
-// Initialisierung der Gabeln-Semaphoren)
-for i from 0 to 4 do
-    initialize S[i] to 1
+INITIALIZE N semaphores (forks)
 
-procedure philosopher(i):
-    while true
-        denken()
-        
-        // Versuch, beide Gabeln (links und rechts) gleichzeitig zu nehmen
-        P(S[i], S[(i+1) % 5])     // Nimm die Gabeln atomar, falls beide verfügbar sind
-        
-        essen()
-        
-        V(S[i], S[(i+1) % 5])     // Gib beide Gabeln gleichzeitig zurück
+// N Prozesse
+FOR i IN 0 to N-1:
+    PARALLEL:
+        WHILE true:
+            // Philosoph denkt
+            DENKT RANDOME ZEIT
+
+            // Philosoph wird hungrig
+            IF i ist gerade:
+                P(fork[i])         // left fork
+                P(fork[(i+1) % N]) // right fork
+            ELSE:
+                P(fork[(i+1) % N]) // right fork
+                P(fork[i])         // left fork
+
+            // Philosoph isst
+            ISST RANDOME ZEIT
+
+            // Gabeln ablegen
+            V(fork[i])         // left fork
+            V(fork[(i+1) % N]) // right fork
